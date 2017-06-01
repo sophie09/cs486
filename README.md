@@ -1,1 +1,1 @@
-# cs486
+# CS486 Assignments
