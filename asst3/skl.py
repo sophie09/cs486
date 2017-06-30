@@ -1,4 +1,5 @@
 from sklearn import tree
+from sklearn.naive_bayes import BernoulliNB
 
 WORDCOUNT = 3566
 
@@ -26,7 +27,7 @@ def __accuracy(treeResult,actual,total):
 def main():
     TRAINDOCUMENTCOUNT = 1061
     TESTDOCUMENTCOUNT = 707
-    depthList = list(range(1,20))
+    depthList = list(range(1,2))
     trainData = __processfile("trainData.txt", TRAINDOCUMENTCOUNT)
     testData = __processfile("testData.txt", TESTDOCUMENTCOUNT)
     trainLabel = []
@@ -56,5 +57,15 @@ def main():
         print("Maximum depth = ", depth)
         print("training accuracy = ",trainAccuracy)
         print("testing accuracy = ",testAccuracy)
+
+    bayes = BernoulliNB(alpha=1,binarize=None)
+    bayes = bayes.fit(trainData,trainLabel)
+    trainPrediction = bayes.predict(trainData)
+    trainAccuracy = __accuracy(trainPrediction,trainLabel,TRAINDOCUMENTCOUNT)
+    testPrediction = bayes.predict(testData)
+    testAccuracy = __accuracy(testPrediction, testLabel, TESTDOCUMENTCOUNT)
+    print("training accuracy = ", trainAccuracy)
+    print("testing accuracy = ", testAccuracy)
+
 
 main()
